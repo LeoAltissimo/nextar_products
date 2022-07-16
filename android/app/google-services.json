@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "613555147280",
+    "project_id": "products-test-ac337",
+    "storage_bucket": "products-test-ac337.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613555147280:android:6029c36b4807dced0f3095",
+        "android_client_info": {
+          "package_name": "com.example.nextar_products"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613555147280-0ht025j39dl440j627b0tt9ladg4q86g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUKKvcRX9oMEbuNCuUkTfDkKGRUBGJFqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613555147280-0ht025j39dl440j627b0tt9ladg4q86g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "613555147280-km1tmk8u4n1inet6t39ergq57qrd13bf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.resocoder.cleanArchitectureTddCourse"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
