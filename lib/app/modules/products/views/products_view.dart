@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:nextar_products/app/modules/home/home_store.dart';
-import 'package:nextar_products/app/modules/home/models/product_model.dart';
+import 'package:nextar_products/app/modules/products/controllers/products_controller.dart';
+import 'package:nextar_products/app/modules/products/models/product_model.dart';
 
-class HomePage extends StatefulWidget {
+class ProductsView extends StatefulWidget {
   final String title;
-  const HomePage({Key? key, this.title = "Home"}) : super(key: key);
+  const ProductsView({Key? key, this.title = "Home"}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ProductsViewState createState() => _ProductsViewState();
 }
 
-class _HomePageState extends ModularState<HomePage, HomeStore> {
+class _ProductsViewState
+    extends ModularState<ProductsView, ProductsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Counter te'),
+        title: const Text('Counter aaa'),
       ),
       body: Observer(
         builder: (_) {
