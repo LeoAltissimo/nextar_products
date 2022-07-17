@@ -3,7 +3,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:nextar_products/app/modules/home/repositories/product_repository.dart';
 import 'package:nextar_products/app/modules/home/repositories/product_repository_interface.dart';
 import '../home/home_store.dart';
-import 'package:nextar_products/firebase_options.dart';
 
 import 'home_page.dart';
 
