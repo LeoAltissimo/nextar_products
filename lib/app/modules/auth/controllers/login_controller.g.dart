@@ -25,10 +25,49 @@ mixin _$LoginController on _LoginController, Store {
     });
   }
 
+  late final _$showPasswordFieldAtom =
+      Atom(name: '_LoginController.showPasswordField', context: context);
+
+  @override
+  bool get showPasswordField {
+    _$showPasswordFieldAtom.reportRead();
+    return super.showPasswordField;
+  }
+
+  @override
+  set showPasswordField(bool value) {
+    _$showPasswordFieldAtom.reportWrite(value, super.showPasswordField, () {
+      super.showPasswordField = value;
+    });
+  }
+
+  late final _$makeAuthAsyncAction =
+      AsyncAction('_LoginController.makeAuth', context: context);
+
+  @override
+  Future<void> makeAuth() {
+    return _$makeAuthAsyncAction.run(() => super.makeAuth());
+  }
+
+  late final _$_LoginControllerActionController =
+      ActionController(name: '_LoginController', context: context);
+
+  @override
+  void handleShowPasswordField() {
+    final _$actionInfo = _$_LoginControllerActionController.startAction(
+        name: '_LoginController.handleShowPasswordField');
+    try {
+      return super.handleShowPasswordField();
+    } finally {
+      _$_LoginControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-userData: ${userData}
+userData: ${userData},
+showPasswordField: ${showPasswordField}
     ''';
   }
 }
