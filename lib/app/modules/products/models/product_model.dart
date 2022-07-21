@@ -30,30 +30,56 @@ class ProductModel {
     );
   }
 
-  save() async {
-    if (reference == null) {
-      reference = await FirebaseFirestore.instance.collection('product').add({
-        'name': name,
-        'refCode': refCode ?? '',
-        'price': price ?? 0.0,
-        'qtd': qtd ?? 1,
-        'created': created ?? Timestamp.now(),
-      });
-    } else {
-      reference?.update({
-        'name': name,
-        'refCode': refCode,
-        'price': price,
-        'qtd': qtd,
-      });
+  String getPriceString() {
+    if (price != null) {
+      return price.toString();
     }
+
+    return "0";
   }
 
-  delete() {
-    if (reference == null) {
-      return null;
-    } else {
-      reference?.delete();
+  String getQtdString() {
+    if (qtd != null) {
+      return qtd.toString();
     }
+
+    return "0";
+  }
+
+  bool validToSave() {
+    var valid = true;
+
+    if (reference != null) {
+      valid = false;
+    } else if (name == null && refCode == null) {
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  bool validToUpdate() {
+    var valid = true;
+
+    if (reference == null) {
+      valid = false;
+    } else if (name == null && refCode == null) {
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  setPriceByText(String priceText) {
+    var priceFormated = priceText;
+    priceFormated = priceFormated.replaceAll('R\$', '');
+    priceFormated = priceFormated.replaceAll('.', '');
+    priceFormated = priceFormated.replaceAll(',', '.');
+
+    price = double.parse(priceFormated != "" ? priceFormated : '0');
+  }
+
+  setQtdByText(String qtdText) {
+    qtd = int.parse(qtdText != "" ? qtdText : '0');
   }
 }

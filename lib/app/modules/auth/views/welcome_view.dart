@@ -17,7 +17,7 @@ class _WelcomeViewState extends ModularState<WelcomeView, WelcomeController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.checkIsAuthenticated();
+    // controller.checkIsAuthenticated();
 
     return Scaffold(
       key: scaffoldKey,

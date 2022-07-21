@@ -5,7 +5,7 @@ import 'package:nextar_products/app/modules/products/controllers/products_contro
 import 'package:nextar_products/app/modules/products/repositories/product_repository.dart';
 import 'package:nextar_products/app/modules/products/repositories/product_repository_interface.dart';
 import 'package:nextar_products/app/modules/products/views/product_detail_page.dart';
-import 'package:nextar_products/app/modules/products/views/products_new_view.dart';
+import 'package:nextar_products/app/modules/products/views/products_view.dart';
 
 class ProductsModule extends Module {
   @override

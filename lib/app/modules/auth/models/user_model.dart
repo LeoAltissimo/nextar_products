@@ -8,5 +8,5 @@ class UserModel extends Equatable {
   UserModel({this.email = "", this.name = "", this.phoneNumber});
 
   @override
-  List<Object> get props => [email!, name!, phoneNumber!];
+  List<Object> get props => [email, name, phoneNumber!];
 }

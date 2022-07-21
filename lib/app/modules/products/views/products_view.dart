@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:nextar_products/app/modules/products/controllers/products_controller.dart';
+import 'package:nextar_products/app/core/flutter_flow/flutter_flow_theme.dart';
+import 'package:nextar_products/app/core/flutter_flow/flutter_flow_widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:nextar_products/app/modules/products/models/product_model.dart';
+import 'package:nextar_products/app/modules/products/controllers/products_controller.dart';
 
 class ProductsView extends StatefulWidget {
-  final String title;
-  const ProductsView({Key? key, this.title = "Home"}) : super(key: key);
+  const ProductsView({Key? key}) : super(key: key);
 
   @override
   _ProductsViewState createState() => _ProductsViewState();
@@ -14,15 +15,57 @@ class ProductsView extends StatefulWidget {
 
 class _ProductsViewState
     extends ModularState<ProductsView, ProductsController> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
-        title: const Text('Counter aaa'),
+        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Produtos',
+          style: FlutterFlowTheme.of(context).title1.override(
+                fontFamily: 'Montserrat',
+                color: FlutterFlowTheme.of(context).primaryText,
+              ),
+        ),
+        actions: [
+          FFButtonWidget(
+            onPressed: () {
+              Modular.to.pushNamed("/home/productdetails", arguments: null);
+            },
+            text: 'Adicionar',
+            icon: const Icon(
+              Icons.add,
+              color: Color(0xFFFF334C),
+              size: 15,
+            ),
+            options: FFButtonOptions(
+              width: 140,
+              height: 40,
+              color: Colors.white,
+              textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                    fontFamily: 'Montserrat',
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+              borderSide: const BorderSide(
+                color: Colors.transparent,
+                width: 0,
+              ),
+              borderRadius: BorderRadius.circular(0),
+            ),
+          ),
+        ],
+        centerTitle: false,
+        elevation: 2,
       ),
-      body: Observer(
-        builder: (_) {
-          final list = controller.productList?.data;
+      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      body: SafeArea(
+        child: Observer(builder: (_) {
+          final list = controller.productList?.data ?? [];
 
           if (controller.productList?.hasError == true) {
             return Center(
@@ -39,70 +82,85 @@ class _ProductsViewState
 
           return ListView.builder(
             itemCount: list?.length ?? 0,
+            padding: const EdgeInsets.only(top: 18),
             itemBuilder: (_, index) {
               ProductModel model = list[index];
-              return ListTile(
-                title: Text(model.name ?? ""),
-                trailing: IconButton(
-                  icon: const Icon(
-                    Icons.edit,
-                    color: Colors.green,
-                    size: 18,
+
+              return GestureDetector(
+                onTap: () => {
+                  Modular.to.pushNamed("/home/productdetails", arguments: model)
+                },
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 8),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      boxShadow: const [
+                        BoxShadow(
+                          blurRadius: 7,
+                          color: Color(0x2E000000),
+                          offset: Offset(0, 4),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                8, 8, 8, 8),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  model.name ?? "Sem nome",
+                                  style: FlutterFlowTheme.of(context).subtitle2,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 8, 0, 0),
+                                  child: Text(
+                                    model.price.toString() ?? "R\$ 00,00",
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyText2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 12, 0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'R\$ ${model.price.toString() ?? "00,00"}',
+                                  style: FlutterFlowTheme.of(context).subtitle1,
+                                ),
+                                Text(
+                                  'Ref: ${model.refCode}',
+                                  style: FlutterFlowTheme.of(context).bodyText2,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  onPressed: () {
-                    _showDialog(model);
-                  },
                 ),
               );
             },
           );
-        },
+        }),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showDialog,
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  _showDialog([ProductModel? product]) {
-    product ??= ProductModel();
-
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: Text(
-              (product!.reference != null) ? "Editar" : "Adicionar um novo"),
-          content: TextField(
-            onChanged: (value) => product!.name = value,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Escreva...',
-            ),
-          ),
-          actions: <Widget>[
-            if (product.reference != null)
-              TextButton(
-                  onPressed: () async {
-                    await product!.delete();
-                    Modular.to.pop();
-                  },
-                  child: const Text("Deletar")),
-            TextButton(
-                onPressed: () async {
-                  await product!.save();
-                  Modular.to.pop();
-                },
-                child: const Text("Adicionar")),
-            TextButton(
-                onPressed: () {
-                  Modular.to.pop();
-                },
-                child: const Text("Cancelar")),
-          ],
-        );
-      },
     );
   }
 }

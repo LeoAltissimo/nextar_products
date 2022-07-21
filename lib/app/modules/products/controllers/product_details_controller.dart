@@ -1,3 +1,4 @@
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:nextar_products/app/modules/products/models/product_model.dart';
 import 'package:nextar_products/app/modules/products/repositories/product_repository_interface.dart';
@@ -13,24 +14,40 @@ abstract class _ProductDetailsControllerBase with Store {
   @observable
   ProductModel product = ProductModel();
 
+  @observable
+  bool editView = false;
+
   _ProductDetailsControllerBase(this.repository);
 
   @action
-  save() async {
-    await repository.createProduct(product);
-  }
-
-  @action
-  update() {
-    if (product.reference != null) {
-      repository.updateProduct(product);
+  handleArgs(ProductModel? args) {
+    if (args?.reference != null) {
+      editView = true;
+      product = args!;
     }
   }
 
   @action
-  delete() {
+  save() async {
+    if (product.validToSave() == true) {
+      var result = await repository.createProduct(product);
+      result.fold((l) => print("Error to save"), (r) => Modular.to.pop());
+    }
+  }
+
+  @action
+  update() async {
+    if (product.validToUpdate() == true) {
+      var result = await repository.updateProduct(product);
+      result.fold((l) => print("Error to Update"), (r) => Modular.to.pop());
+    }
+  }
+
+  @action
+  delete() async {
     if (product.reference != null) {
-      repository.createProduct(product);
+      var result = await repository.deleteProduct(product);
+      result.fold((l) => print("Error to Delete"), (r) => Modular.to.pop());
     }
   }
 }
